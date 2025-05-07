@@ -83,31 +83,72 @@
             // Change color initially
             changeColor();
             
-            // Wait for the image to load to get its actual dimensions
-            logo.onload = () => {
-                updateDimensions();
-                setInitialPosition();
-            };
+            // Get estimated logo dimensions based on window size
+            function getEstimatedDimensions() {
+                // Estimate width based on CSS media queries
+                let estimatedWidth;
+                
+                if (window.innerWidth <= 480) {
+                    estimatedWidth = 60; // Small mobile
+                } else if (window.innerWidth <= 768) {
+                    estimatedWidth = 100; // Medium/tablet
+                } else {
+                    estimatedWidth = 200; // Desktop
+                }
+                
+                // Stable Radio logo has an aspect ratio of approximately 3:1
+                // Using this to estimate height
+                const estimatedHeight = estimatedWidth / 3;
+                
+                return { width: estimatedWidth, height: estimatedHeight };
+            }
+            
+            // Initialize dimensions with estimates
+            let dimensions = getEstimatedDimensions();
+            logoWidth = dimensions.width;
+            logoHeight = dimensions.height;
+            
+            // Initialize position with safe values
+            let x = Math.random() * (window.innerWidth - logoWidth);
+            let y = Math.random() * (window.innerHeight - logoHeight);
             
             // Function to update dimensions based on current display
             function updateDimensions() {
+                // Get actual dimensions after image loads
                 logoWidth = logo.offsetWidth;
                 logoHeight = logo.offsetHeight;
+                
+                // Ensure the logo stays within bounds
+                if (x + logoWidth > window.innerWidth) {
+                    x = window.innerWidth - logoWidth;
+                }
+                if (y + logoHeight > window.innerHeight) {
+                    y = window.innerHeight - logoHeight;
+                }
             }
             
             // Set initial position
             function setInitialPosition() {
-                x = Math.random() * (window.innerWidth - logoWidth);
-                y = Math.random() * (window.innerHeight - logoHeight);
+                // Update dimensions first
+                updateDimensions();
+                
+                // Set a safe random position
+                x = Math.min(Math.random() * (window.innerWidth - logoWidth), window.innerWidth - logoWidth);
+                y = Math.min(Math.random() * (window.innerHeight - logoHeight), window.innerHeight - logoHeight);
                 
                 // Apply the initial position
                 logo.style.left = `${x}px`;
                 logo.style.top = `${y}px`;
             }
             
-            // Initialize position with estimated dimensions
-            let x = Math.random() * (window.innerWidth - (window.innerWidth <= 768 ? 100 : 200));
-            let y = Math.random() * (window.innerHeight - (window.innerWidth <= 768 ? 50 : 100));
+            // Wait for the image to load to get its actual dimensions
+            logo.onload = () => {
+                setInitialPosition();
+            };
+            
+            // Apply initial position even before image loads
+            logo.style.left = `${x}px`;
+            logo.style.top = `${y}px`;
             
             // Animation loop
             function animate() {
@@ -115,13 +156,23 @@
                 x += dx;
                 y += dy;
                 
-                // Boundary checks
-                if (x <= 0 || x + logoWidth >= window.innerWidth) {
+                // Boundary checks - ensure logo is fully contained
+                if (x < 0) {
+                    x = 0;
+                    dx = -dx;
+                    changeColor();
+                } else if (x + logoWidth > window.innerWidth) {
+                    x = window.innerWidth - logoWidth;
                     dx = -dx;
                     changeColor();
                 }
                 
-                if (y <= 0 || y + logoHeight >= window.innerHeight) {
+                if (y < 0) {
+                    y = 0;
+                    dy = -dy;
+                    changeColor();
+                } else if (y + logoHeight > window.innerHeight) {
+                    y = window.innerHeight - logoHeight;
                     dy = -dy;
                     changeColor();
                 }
@@ -139,16 +190,11 @@
             
             // Handle window resize
             window.addEventListener('resize', () => {
-                // Update dimensions
-                updateDimensions();
+                // Get new estimated dimensions
+                dimensions = getEstimatedDimensions();
                 
-                // Keep the logo within the new window boundaries
-                if (x + logoWidth > window.innerWidth) {
-                    x = window.innerWidth - logoWidth;
-                }
-                if (y + logoHeight > window.innerHeight) {
-                    y = window.innerHeight - logoHeight;
-                }
+                // Update dimensions with actual values if possible
+                updateDimensions();
                 
                 // Adjust speed for mobile
                 if (window.innerWidth <= 768) {
