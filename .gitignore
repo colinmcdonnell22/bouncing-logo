@@ -1,0 +1,14 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor folders
+.vscode/
+.idea/
+*.sublime-*
+
+# Logs
+*.log
+
+# Dependency directories
+node_modules/ 

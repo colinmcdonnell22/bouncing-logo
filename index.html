@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bouncing DVD Logo</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #000;
+        }
+        #container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        #dvd-logo {
+            position: absolute;
+            width: 500px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <img id="dvd-logo" src="dvd.png" alt="DVD Logo">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const logo = document.getElementById('dvd-logo');
+            const container = document.getElementById('container');
+            
+            // Get the dimensions
+            let logoWidth = 500;
+            let logoHeight;
+            
+            // Set initial position
+            let x = Math.random() * (window.innerWidth - logoWidth);
+            let y = Math.random() * (window.innerHeight - 250); // Approximate height until image loads
+            
+            // Set speed (pixels per frame)
+            let dx = 2;
+            let dy = 2;
+            
+            // Available colors for the logo
+            const colors = [
+                '#ff0000', // Red
+                '#00ff00', // Green
+                '#0000ff', // Blue
+                '#ffff00', // Yellow
+                '#ff00ff', // Magenta
+                '#00ffff', // Cyan
+                '#ff8800'  // Orange
+            ];
+            
+            // Function to change logo color
+            function changeColor() {
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                logo.style.filter = `drop-shadow(0 0 0 ${randomColor}) saturate(0%) brightness(2)`;
+            }
+            
+            // Change color initially
+            changeColor();
+            
+            // Wait for the image to load to get its actual dimensions
+            logo.onload = () => {
+                logoHeight = logo.offsetHeight;
+                y = Math.random() * (window.innerHeight - logoHeight);
+            };
+            
+            // Animation loop
+            function animate() {
+                // Update position
+                x += dx;
+                y += dy;
+                
+                // Boundary checks
+                if (x <= 0 || x + logoWidth >= window.innerWidth) {
+                    dx = -dx;
+                    changeColor();
+                }
+                
+                if (y <= 0 || y + logoHeight >= window.innerHeight) {
+                    dy = -dy;
+                    changeColor();
+                }
+                
+                // Apply the new position
+                logo.style.left = `${x}px`;
+                logo.style.top = `${y}px`;
+                
+                // Continue the animation
+                requestAnimationFrame(animate);
+            }
+            
+            // Start the animation
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                // Keep the logo within the new window boundaries
+                if (x + logoWidth > window.innerWidth) {
+                    x = window.innerWidth - logoWidth;
+                }
+                if (y + logoHeight > window.innerHeight) {
+                    y = window.innerHeight - logoHeight;
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
