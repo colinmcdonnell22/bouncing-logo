@@ -20,6 +20,20 @@
             width: 500px;
             height: auto;
         }
+        
+        /* Mobile optimization */
+        @media screen and (max-width: 768px) {
+            #dvd-logo {
+                width: 150px; /* Much smaller on mobile */
+            }
+        }
+        
+        /* Small mobile devices */
+        @media screen and (max-width: 480px) {
+            #dvd-logo {
+                width: 100px; /* Even smaller on very small screens */
+            }
+        }
     </style>
 </head>
 <body>
@@ -32,17 +46,19 @@
             const logo = document.getElementById('dvd-logo');
             const container = document.getElementById('container');
             
-            // Get the dimensions
-            let logoWidth = 500;
+            // Get the dimensions - will be responsive based on screen size
+            let logoWidth;
             let logoHeight;
-            
-            // Set initial position
-            let x = Math.random() * (window.innerWidth - logoWidth);
-            let y = Math.random() * (window.innerHeight - 250); // Approximate height until image loads
             
             // Set speed (pixels per frame)
             let dx = 2;
             let dy = 2;
+            
+            // Adjust speed for mobile
+            if (window.innerWidth <= 768) {
+                dx = 1.5;
+                dy = 1.5;
+            }
             
             // Available colors for the logo
             const colors = [
@@ -66,9 +82,29 @@
             
             // Wait for the image to load to get its actual dimensions
             logo.onload = () => {
-                logoHeight = logo.offsetHeight;
-                y = Math.random() * (window.innerHeight - logoHeight);
+                updateDimensions();
+                setInitialPosition();
             };
+            
+            // Function to update dimensions based on current display
+            function updateDimensions() {
+                logoWidth = logo.offsetWidth;
+                logoHeight = logo.offsetHeight;
+            }
+            
+            // Set initial position
+            function setInitialPosition() {
+                x = Math.random() * (window.innerWidth - logoWidth);
+                y = Math.random() * (window.innerHeight - logoHeight);
+                
+                // Apply the initial position
+                logo.style.left = `${x}px`;
+                logo.style.top = `${y}px`;
+            }
+            
+            // Initialize position with estimated dimensions
+            let x = Math.random() * (window.innerWidth - (window.innerWidth <= 768 ? 150 : 500));
+            let y = Math.random() * (window.innerHeight - (window.innerWidth <= 768 ? 75 : 250));
             
             // Animation loop
             function animate() {
@@ -100,12 +136,24 @@
             
             // Handle window resize
             window.addEventListener('resize', () => {
+                // Update dimensions
+                updateDimensions();
+                
                 // Keep the logo within the new window boundaries
                 if (x + logoWidth > window.innerWidth) {
                     x = window.innerWidth - logoWidth;
                 }
                 if (y + logoHeight > window.innerHeight) {
                     y = window.innerHeight - logoHeight;
+                }
+                
+                // Adjust speed for mobile
+                if (window.innerWidth <= 768) {
+                    dx = dx > 0 ? 1.5 : -1.5;
+                    dy = dy > 0 ? 1.5 : -1.5;
+                } else {
+                    dx = dx > 0 ? 2 : -2;
+                    dy = dy > 0 ? 2 : -2;
                 }
             });
         });
