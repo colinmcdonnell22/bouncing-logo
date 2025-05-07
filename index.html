@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bouncing DVD Logo</title>
+    <title>Bouncing Logo</title>
     <style>
         body {
             margin: 0;
@@ -15,35 +15,37 @@
             height: 100vh;
             position: relative;
         }
-        #dvd-logo {
+        #logo {
             position: absolute;
-            width: 500px;
+            width: 200px;
             height: auto;
+            /* Make the black logo appear white */
+            filter: brightness(0) invert(1);
         }
         
         /* Mobile optimization */
         @media screen and (max-width: 768px) {
-            #dvd-logo {
-                width: 150px; /* Much smaller on mobile */
+            #logo {
+                width: 100px; /* Much smaller on mobile */
             }
         }
         
         /* Small mobile devices */
         @media screen and (max-width: 480px) {
-            #dvd-logo {
-                width: 100px; /* Even smaller on very small screens */
+            #logo {
+                width: 60px; /* Even smaller on very small screens */
             }
         }
     </style>
 </head>
 <body>
     <div id="container">
-        <img id="dvd-logo" src="dvd.png" alt="DVD Logo">
+        <img id="logo" src="stable_radio_logo.webp" alt="Stable Radio Logo">
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const logo = document.getElementById('dvd-logo');
+            const logo = document.getElementById('logo');
             const container = document.getElementById('container');
             
             // Get the dimensions - will be responsive based on screen size
@@ -74,7 +76,8 @@
             // Function to change logo color
             function changeColor() {
                 const randomColor = colors[Math.floor(Math.random() * colors.length)];
-                logo.style.filter = `drop-shadow(0 0 0 ${randomColor}) saturate(0%) brightness(2)`;
+                // First invert to white, then apply color
+                logo.style.filter = `brightness(0) invert(1) drop-shadow(0 0 0 ${randomColor}) saturate(1) brightness(1.2)`;
             }
             
             // Change color initially
@@ -103,8 +106,8 @@
             }
             
             // Initialize position with estimated dimensions
-            let x = Math.random() * (window.innerWidth - (window.innerWidth <= 768 ? 150 : 500));
-            let y = Math.random() * (window.innerHeight - (window.innerWidth <= 768 ? 75 : 250));
+            let x = Math.random() * (window.innerWidth - (window.innerWidth <= 768 ? 100 : 200));
+            let y = Math.random() * (window.innerHeight - (window.innerWidth <= 768 ? 50 : 100));
             
             // Animation loop
             function animate() {
