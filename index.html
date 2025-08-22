@@ -107,8 +107,8 @@
                     height: 0,
                     x: 0,
                     y: 0,
-                    dx: 2.5,
-                    dy: 2.5,
+                    dx: 2.125,
+                    dy: 2.125,
                     colors: [
                         '#ff0000', '#00ff00', '#0000ff', '#ffff00', 
                         '#ff00ff', '#00ffff', '#ff8800'
@@ -120,8 +120,8 @@
                     height: 0,
                     x: 0,
                     y: 0,
-                    dx: -2.2, // Different speed and direction
-                    dy: -1.9,
+                    dx: -1.87, // Different speed and direction
+                    dy: -1.615,
                     colors: [
                         '#ff4444', '#44ff44', '#4444ff', '#ffff44',
                         '#ff44ff', '#44ffff', '#ff8844'
@@ -131,10 +131,10 @@
             
             // Adjust speed for mobile
             if (window.innerWidth <= 768) {
-                logos[0].dx = logos[0].dx > 0 ? 1.6 : -1.6;
-                logos[0].dy = logos[0].dy > 0 ? 1.6 : -1.6;
-                logos[1].dx = logos[1].dx > 0 ? 1.4 : -1.4;
-                logos[1].dy = logos[1].dy > 0 ? 1.4 : -1.4;
+                logos[0].dx = logos[0].dx > 0 ? 1.36 : -1.36;
+                logos[0].dy = logos[0].dy > 0 ? 1.36 : -1.36;
+                logos[1].dx = logos[1].dx > 0 ? 1.19 : -1.19;
+                logos[1].dy = logos[1].dy > 0 ? 1.19 : -1.19;
             }
             
             // Function to change logo color
@@ -291,19 +291,19 @@
                     // Adjust speed for mobile
                     if (window.innerWidth <= 768) {
                         if (logo.element.id === 'stable-logo') {
-                            logo.dx = logo.dx > 0 ? 1.6 : -1.6;
-                            logo.dy = logo.dy > 0 ? 1.6 : -1.6;
+                            logo.dx = logo.dx > 0 ? 1.36 : -1.36;
+                            logo.dy = logo.dy > 0 ? 1.36 : -1.36;
                         } else {
-                            logo.dx = logo.dx > 0 ? 1.4 : -1.4;
-                            logo.dy = logo.dy > 0 ? 1.4 : -1.4;
+                            logo.dx = logo.dx > 0 ? 1.19 : -1.19;
+                            logo.dy = logo.dy > 0 ? 1.19 : -1.19;
                         }
                     } else {
                         if (logo.element.id === 'stable-logo') {
-                            logo.dx = logo.dx > 0 ? 2.5 : -2.5;
-                            logo.dy = logo.dy > 0 ? 2.5 : -2.5;
+                            logo.dx = logo.dx > 0 ? 2.125 : -2.125;
+                            logo.dy = logo.dy > 0 ? 2.125 : -2.125;
                         } else {
-                            logo.dx = logo.dx > 0 ? 2.2 : -2.2;
-                            logo.dy = logo.dy > 0 ? 1.9 : -1.9;
+                            logo.dx = logo.dx > 0 ? 1.87 : -1.87;
+                            logo.dy = logo.dy > 0 ? 1.615 : -1.615;
                         }
                     }
                 });
