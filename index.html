@@ -94,8 +94,8 @@
                     height: 0,
                     x: 0,
                     y: 0,
-                    dx: 1.75,
-                    dy: 1.75,
+                    dx: 1.61,
+                    dy: 1.61,
                     colors: [
                         '#ff0000', '#00ff00', '#0000ff', '#ffff00', 
                         '#ff00ff', '#00ffff', '#ff8800'
@@ -105,8 +105,8 @@
             
             // Adjust speed for mobile
             if (window.innerWidth <= 768) {
-                logos[0].dx = logos[0].dx > 0 ? 1.12 : -1.12;
-                logos[0].dy = logos[0].dy > 0 ? 1.12 : -1.12;
+                logos[0].dx = logos[0].dx > 0 ? 1.03 : -1.03;
+                logos[0].dy = logos[0].dy > 0 ? 1.03 : -1.03;
             }
             
             // Function to change logo color
@@ -247,11 +247,11 @@
                     
                     // Adjust speed for mobile
                     if (window.innerWidth <= 768) {
-                        logo.dx = logo.dx > 0 ? 1.12 : -1.12;
-                        logo.dy = logo.dy > 0 ? 1.12 : -1.12;
+                        logo.dx = logo.dx > 0 ? 1.03 : -1.03;
+                        logo.dy = logo.dy > 0 ? 1.03 : -1.03;
                     } else {
-                        logo.dx = logo.dx > 0 ? 1.75 : -1.75;
-                        logo.dy = logo.dy > 0 ? 1.75 : -1.75;
+                        logo.dx = logo.dx > 0 ? 1.61 : -1.61;
+                        logo.dy = logo.dy > 0 ? 1.61 : -1.61;
                     }
                 });
             });
